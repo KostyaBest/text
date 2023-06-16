@@ -1,0 +1,48 @@
+#!/bin/python3
+
+
+from sys import argv
+from os import listdir
+from os.path import isfile, join
+
+TEXT_FOLDER="/home/hostname/.bin_data/text"
+
+
+def print_files_from_folder()->list[str]:
+    files= [f for f in listdir(TEXT_FOLDER) if isfile(join(TEXT_FOLDER,f))]
+    print("FILES:")
+    print(files)
+    print("########################")
+
+def read_file_and_print(file_name:str)->None:
+    file_name_with_txt=file_name+".txt"
+    #with open(f"{TEXT_FOLDER}/{file_name}.txt","r") as f:
+    with open(f"{TEXT_FOLDER}/{file_name_with_txt}","r") as f:
+        output=f.readlines()
+    print(f"{file_name_with_txt}:")
+    for line in output:
+        print(line)
+    print("########################")
+
+
+def main()->None:
+    args=argv[1::]
+    if not args:
+        print("You need to write file name")
+        print_files_from_folder()
+        return
+    try:
+        for i in range(len(args)):
+            read_file_and_print(args[i])
+
+    except FileNotFoundError as e:
+        print(f"There is no such file")
+    except Exception as e:
+        print(" ")
+
+    
+
+
+
+if __name__ == "__main__":
+    main()
